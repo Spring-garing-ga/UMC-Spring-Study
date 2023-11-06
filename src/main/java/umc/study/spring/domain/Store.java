@@ -1,8 +1,6 @@
-package umc.study.spring.domain.store.entity;
+package umc.study.spring.domain;
 
 import lombok.*;
-import org.hibernate.type.descriptor.sql.TinyIntTypeDescriptor;
-import umc.study.spring.domain.Category.Entity.Category;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

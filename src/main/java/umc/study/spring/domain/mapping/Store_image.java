@@ -1,7 +1,7 @@
-package umc.study.spring.mapping;
+package umc.study.spring.domain.mapping;
 
 import lombok.*;
-import umc.study.spring.domain.store.entity.Store;
+import umc.study.spring.domain.Store;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
