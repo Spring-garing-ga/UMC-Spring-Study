@@ -21,4 +21,16 @@ public class UserPrefer {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     Category category;
+
+    //==연관관계 메서드==//
+    public void setUser(User user){
+        if(this.user != null)
+            user.getUserPreferList().remove(this);
+        this.user = user;
+        user.getUserPreferList().add(this);
+    }
+
+    public void setCategory(Category category){
+        this.category = category;
+    }
 }
