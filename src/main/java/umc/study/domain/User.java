@@ -1,8 +1,7 @@
-package umc.study.spring.domain;
+package umc.study.domain;
 
 import lombok.*;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
-import umc.study.spring.domain.common.BaseEntity;
+import umc.study.domain.common.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

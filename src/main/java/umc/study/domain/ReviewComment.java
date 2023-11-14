@@ -1,6 +1,7 @@
-package umc.study.spring.domain;
+package umc.study.domain;
 
 import lombok.*;
+import umc.study.domain.common.BaseEntity;
 
 import javax.persistence.*;
 
@@ -9,16 +10,17 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ReviewImage {
+public class ReviewComment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String imageUrl;
+    private String comment;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "review_id")
+    @OneToOne(mappedBy = "reviewComment")
     private Review review;
+
+
 }

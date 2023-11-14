@@ -1,4 +1,4 @@
-package umc.study.spring.domain.enums;
+package umc.study.domain.enums;
 
 public enum MissionStatus {
     IN_PROGRESS, COMPLETED

@@ -1,8 +1,8 @@
-package umc.study.spring.domain;
+package umc.study.domain;
 
 import lombok.*;
-import umc.study.spring.domain.common.BaseEntity;
-import umc.study.spring.domain.mapping.UserMission;
+import umc.study.domain.common.BaseEntity;
+import umc.study.domain.mapping.UserMission;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

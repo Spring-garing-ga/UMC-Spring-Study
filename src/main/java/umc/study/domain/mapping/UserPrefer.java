@@ -1,8 +1,8 @@
-package umc.study.spring.domain.mapping;
+package umc.study.domain.mapping;
 
 import lombok.*;
-import umc.study.spring.domain.Category;
-import umc.study.spring.domain.User;
+import umc.study.domain.Category;
+import umc.study.domain.User;
 
 import javax.persistence.*;
 

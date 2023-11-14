@@ -1,8 +1,8 @@
-package umc.study.spring.domain.mapping;
+package umc.study.domain.mapping;
 
 import lombok.*;
-import umc.study.spring.domain.common.BaseEntity;
-import umc.study.spring.domain.enums.MissionStatus;
+import umc.study.domain.common.BaseEntity;
+import umc.study.domain.enums.MissionStatus;
 
 import javax.persistence.*;
 

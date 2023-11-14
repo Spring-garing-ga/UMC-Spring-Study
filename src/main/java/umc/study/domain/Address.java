@@ -1,7 +1,7 @@
-package umc.study.spring.domain;
+package umc.study.domain;
 
 import lombok.*;
-import umc.study.spring.domain.common.BaseEntity;
+import umc.study.domain.common.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
