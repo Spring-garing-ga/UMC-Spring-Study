@@ -1,9 +1,8 @@
 package umc.study.converter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import umc.study.domain.Review;
-import umc.study.domain.Store;
-import umc.study.domain.User;
+import umc.study.spring.domain.Review;
+import umc.study.spring.domain.Store;
+import umc.study.spring.domain.User;
 import umc.study.repository.StoreRepository;
 import umc.study.repository.UserRepository;
 import umc.study.web.dto.ReviewRequestDTO;
@@ -11,7 +10,6 @@ import umc.study.web.dto.ReviewResponseDTO;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class ReviewConverter {
 

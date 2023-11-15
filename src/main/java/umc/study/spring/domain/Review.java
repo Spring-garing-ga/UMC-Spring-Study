@@ -1,9 +1,9 @@
-package umc.study.domain;
+package umc.study.spring.domain;
 
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import umc.study.domain.common.BaseEntity;
+import umc.study.spring.domain.common.BaseEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

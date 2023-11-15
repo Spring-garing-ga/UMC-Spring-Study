@@ -1,4 +1,4 @@
-package umc.study.domain;
+package umc.study.spring.domain;
 
 import lombok.*;
 
