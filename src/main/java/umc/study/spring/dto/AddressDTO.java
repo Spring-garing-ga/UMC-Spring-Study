@@ -1,11 +1,10 @@
 package umc.study.spring.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 @Getter
-public class AddressRequestDTO {
+public class AddressDTO {
 
-    public AddressRequestDTO(int zip_code, String address, String detail, int type) {
+    public AddressDTO(int zip_code, String address, String detail, int type) {
         this.zip_code = zip_code;
         this.address = address;
         this.detail = detail;

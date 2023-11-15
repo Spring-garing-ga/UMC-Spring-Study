@@ -25,7 +25,7 @@ public class Store extends BaseEntity {
     private Address address;
 
     @Column(name = "rating")
-    private float rating;
+    private Float rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

@@ -3,8 +3,7 @@ package umc.study.spring.convertor;
 import umc.study.spring.domain.Address;
 import umc.study.spring.domain.User;
 import umc.study.spring.domain.enums.Gender;
-import umc.study.spring.dto.AddressRequestDTO;
-import umc.study.spring.dto.AddressResponseDTO;
+import umc.study.spring.dto.AddressDTO;
 import umc.study.spring.dto.UserRequestDTO;
 import umc.study.spring.dto.UserResponseDTO;
 
@@ -37,8 +36,8 @@ public class UserConverter {
                 break;
         }
 
-        AddressRequestDTO addressRequestDTO = new AddressRequestDTO(request.getZip_code(),request.getAddress(),request.getDetail(),0);
-        Address address = AddressConverter.toAddress(addressRequestDTO);
+        AddressDTO addressDTO = new AddressDTO(request.getZip_code(),request.getAddress(),request.getDetail(),0);
+        Address address = AddressConverter.toAddress(addressDTO);
 
 
         return User.builder()
