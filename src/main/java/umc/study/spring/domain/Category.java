@@ -1,27 +1,23 @@
 package umc.study.spring.domain;
 
 import lombok.*;
+import umc.study.spring.domain.common.BaseEntity;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Category {
-
+public class Category extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    Long id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
-
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
+    @Column(nullable = false, length = 50)
+    String name;
 }

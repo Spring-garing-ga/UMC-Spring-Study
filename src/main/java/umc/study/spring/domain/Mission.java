@@ -17,7 +17,7 @@ import java.util.List;
 public class Mission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, length = 50)
     private String title;
@@ -31,12 +31,18 @@ public class Mission extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String description;
 
-    @Column(nullable = false)
-    private Integer storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     @Column(nullable = false)
     private LocalDateTime deadline;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<UserMission> userMissionList = new ArrayList<>();
+
+    //==연관관계 편의 메서드==//
+    public void setStore(Store store){
+        this.store = store;
+    }
 }
