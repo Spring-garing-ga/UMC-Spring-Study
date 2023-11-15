@@ -2,6 +2,7 @@ package umc.study.spring.domain;
 
 import lombok.*;
 import umc.study.spring.domain.common.BaseEntity;
+import umc.study.spring.domain.enums.Gender;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,9 +21,9 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
-
+    
     @Column(nullable = true)
-    private String gender;
+    private Gender gender;
 
     @Column(nullable = true)
     private LocalDateTime birth;
