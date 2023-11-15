@@ -1,6 +1,8 @@
 package umc.study.spring.domain;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.study.spring.domain.common.BaseEntity;
 
 import javax.persistence.*;
@@ -9,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicUpdate
+@DynamicInsert
+
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -18,7 +23,7 @@ public class Review extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Float rating;
+    private float rating;
 
     @Column(nullable = false)
     private String content;

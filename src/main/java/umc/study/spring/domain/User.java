@@ -5,6 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnJava;
+
 import umc.study.spring.domain.common.BaseEntity;
 import umc.study.spring.domain.enums.Gender;
 import umc.study.spring.domain.mapping.UserPrefer;
@@ -19,12 +20,14 @@ import java.util.List;
 @Getter
 @DynamicInsert
 @DynamicUpdate
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class User extends BaseEntity {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 50)
@@ -33,6 +36,15 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 50)
     private Gender gender;
     private LocalDate birth;
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = true)
+    private String gender;
+
+    @Column(nullable = true)
+    private LocalDateTime birth;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     Address address;
