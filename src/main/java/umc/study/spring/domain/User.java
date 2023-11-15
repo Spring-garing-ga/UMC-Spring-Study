@@ -10,6 +10,7 @@ import umc.study.spring.domain.common.BaseEntity;
 import umc.study.spring.domain.enums.Gender;
 import umc.study.spring.domain.mapping.UserPrefer;
 
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,9 +39,9 @@ public class User extends BaseEntity {
     private LocalDate birth;
     @Column(nullable = false)
     private String name;
-
+    
     @Column(nullable = true)
-    private String gender;
+    private Gender gender;
 
     @Column(nullable = true)
     private LocalDateTime birth;
