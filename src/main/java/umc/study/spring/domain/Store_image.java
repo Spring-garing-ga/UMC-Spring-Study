@@ -24,5 +24,4 @@ public class Store_image extends BaseEntity {
 
     @Column(name = "image_url")
     private String imageUrl;
-
 }

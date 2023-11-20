@@ -22,14 +22,9 @@ public class StoreConverter {
         AddressRequestDTO addressRequestDTO = new AddressRequestDTO(request.getZip_code(), request.getAddress(), request.getDetail(), 0);
         Address address = AddressConverter.toAddress(addressRequestDTO);
 
-        CategoryRequestDTO categoryRequestDTO = new CategoryRequestDTO(request.getCategory_name());
-        Category category = CategoryConverter.toCategory(categoryRequestDTO);
-
-
         return Store.builder()
                 .address(address)
                 .name(request.getName())
-                .category(category)
                 .build();
     }
 }
