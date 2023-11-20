@@ -1,4 +1,4 @@
-package umc.study.service.UserService;
+package umc.study.spring.service.UserService;
 
 public class UserQueryServiceImpl {
 }

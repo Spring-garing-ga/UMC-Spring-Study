@@ -8,6 +8,8 @@ import umc.study.spring.web.dto.UserRequestDTO;
 import umc.study.spring.web.dto.UserResponseDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 
 public class UserConverter {
     public static UserResponseDTO.JoinResultDTO toJoinResultDTO(User user){
@@ -17,7 +19,7 @@ public class UserConverter {
                 .build();
     }
 
-    public static User toUser(UserRequestDTO.JoinDto request){
+    public static User toUser(UserRequestDTO.JoinDTO request){
 
         Gender gender = null;
 
@@ -33,14 +35,18 @@ public class UserConverter {
                 break;
         }
 
-        AddressRequestDTO addressRequestDTO = new AddressRequestDTO(request.getZip_code(), request.getAddress(), request.getDetail(), 0);
-        Address address = AddressConverter.toAddress(addressRequestDTO);
+        AddressRequestDTO addressDTO = new AddressRequestDTO(request.getZip_code(),request.getAddress(),request.getDetail(),0);
+        Address address = AddressConverter.toAddress(addressDTO);
+
 
         return User.builder()
                 .address(address)
                 .gender(gender)
                 .name(request.getName())
                 .birth(request.getBirth())
+                .nickname(request.getNickname())
+                .term(request.getTerm())
+                .userPreferList(new ArrayList<>())
                 .build();
     }
 }

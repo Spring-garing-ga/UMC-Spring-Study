@@ -1,7 +1,7 @@
-package umc.study.spring.apiPayload.exception.handler;
+package umc.study.spring.apiPayLoad.exception.handler;
 
-import umc.study.spring.apiPayload.code.BaseErrorCode;
-import umc.study.spring.apiPayload.exception.GeneralException;
+import umc.study.spring.apiPayLoad.code.BaseErrorCode;
+import umc.study.spring.apiPayLoad.exception.GeneralException;
 
 public class FoodCategoryHandler extends GeneralException {
     public FoodCategoryHandler(BaseErrorCode errorCode) {
