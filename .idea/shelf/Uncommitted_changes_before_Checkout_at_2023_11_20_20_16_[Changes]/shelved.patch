@@ -1,0 +1,236 @@
+Index: src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code;\n\nimport lombok.Builder;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\n\n@Getter\n@Builder\npublic class ReasonDTO {\n    private HttpStatus httpStatus;\n\n    private final boolean isSuccess;\n    private final String code;\n    private final String message;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java b/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java	(date 1700467138925)
+@@ -12,4 +12,8 @@
+     private final boolean isSuccess;
+     private final String code;
+     private final String message;
++
++    public boolean getIsSuccess() {
++        return isSuccess;
++    }
+ }
+Index: src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code;\n\npublic interface BaseErrorCode {\n    public ErrorReasonDTO getReason();\n    public ErrorReasonDTO getReasonHttpStatus();\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java b/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java	(date 1700467403261)
+@@ -1,5 +1,8 @@
+ package umc.study.spring.apiPayLoad.code;
+ 
++
++import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
++
+ public interface BaseErrorCode {
+     public ErrorReasonDTO getReason();
+     public ErrorReasonDTO getReasonHttpStatus();
+Index: src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code.status;\n\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\nimport umc.study.spring.apiPayLoad.code.BaseErrorCode;\nimport umc.study.spring.apiPayLoad.code.ErrorReasonDTO;\n@Getter\n@AllArgsConstructor\npublic enum ErrorStatus implements BaseErrorCode {\n    _INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, \"COMMON500\", \"서버 에러, 관리자에게 문의 바랍니다.\"),\n    _BAD_REQUEST(HttpStatus.BAD_REQUEST,\"COMMON400\", \"잘못된 요청입니다.\"),\n    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,\"COMMON401\", \"인증이 필요합니다.\"),\n    _FORBIDDEN(HttpStatus.FORBIDDEN,\"COMMON403\", \"금지된 요청입니다.\"),\n\n    //멤버 관련 에러\n    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, \"MEMBER4001\",\"사용자가 없습니다.\"),\n    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, \"MEMBER4002\",\"닉네임은 필수 입니다.\"),\n\n    //Article Error\n    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND,\"ARTICLE4001\", \"게시글이 없습니다.\"),\n\n    //For Test\n    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, \"TEMP4001\", \"이거는 테스트\"),\n\n    //Category Error\n    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,\"CATEGORY4001\",\"카테고리를 찾을 수 없습니다.\"),\n    //Store Error\n    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,\"STORE4001\",\"가게를 찾을 수 없습니다.\")\n    ;\n    private final HttpStatus httpStatus;\n    private final String code;\n    private final String message;\n\n    @Override\n    public ErrorReasonDTO getReason() {\n        return ErrorReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(false)\n                .build();\n    }\n\n    @Override\n    public ErrorReasonDTO getReasonHttpStatus() {\n        return ErrorReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(false)\n                .httpStatus(httpStatus)\n                .build();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java b/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java	(date 1700467403273)
+@@ -5,29 +5,33 @@
+ import org.springframework.http.HttpStatus;
+ import umc.study.spring.apiPayLoad.code.BaseErrorCode;
+ import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
++
+ @Getter
+ @AllArgsConstructor
+ public enum ErrorStatus implements BaseErrorCode {
++
++    // 가장 일반적인 응답
+     _INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON500", "서버 에러, 관리자에게 문의 바랍니다."),
+-    _BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON400", "잘못된 요청입니다."),
+-    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401", "인증이 필요합니다."),
+-    _FORBIDDEN(HttpStatus.FORBIDDEN,"COMMON403", "금지된 요청입니다."),
++    _BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON400","잘못된 요청입니다."),
++    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401","인증이 필요합니다."),
++    _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
+ 
+-    //멤버 관련 에러
+-    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001","사용자가 없습니다."),
+-    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002","닉네임은 필수 입니다."),
++
++    // 멤버 관려 에러
++    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
++    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
+ 
+-    //Article Error
+-    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND,"ARTICLE4001", "게시글이 없습니다."),
++    // 예시,,,
++    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
+ 
+-    //For Test
+-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
++    // Ror test
++    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "This is Test"),
+ 
+-    //Category Error
+-    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"CATEGORY4001","카테고리를 찾을 수 없습니다."),
+-    //Store Error
+-    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,"STORE4001","가게를 찾을 수 없습니다.")
+-    ;
++    // FoodCategory Error
++    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "FOOD_CATEGORY4001", "음식 카테고리가 없습니다."),
++    // Store
++    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE4001", "해당 가게가 없습니다.");
++
+     private final HttpStatus httpStatus;
+     private final String code;
+     private final String message;
+@@ -48,6 +52,7 @@
+                 .code(code)
+                 .isSuccess(false)
+                 .httpStatus(httpStatus)
+-                .build();
++                .build()
++                ;
+     }
+-}
++}
+\ No newline at end of file
+Index: src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code;\n\nimport lombok.Builder;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\n\n@Getter\n@Builder\npublic class ErrorReasonDTO {\n    private HttpStatus httpStatus;\n    private final boolean isSuccess;\n    private final String code;\n    private final String message;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java b/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java	(date 1700467138918)
+@@ -8,7 +8,13 @@
+ @Builder
+ public class ErrorReasonDTO {
+     private HttpStatus httpStatus;
++
+     private final boolean isSuccess;
+     private final String code;
+     private final String message;
++
++    public boolean getIsSuccess() {
++        return isSuccess;
++    }
+ }
++
+Index: src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code;\n\n\n\n\npublic interface BaseCode {\n    public ReasonDTO getReason();\n    public ReasonDTO getReasonHttpStatus();\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java b/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java	(date 1700467403287)
+@@ -1,7 +1,6 @@
+ package umc.study.spring.apiPayLoad.code;
+ 
+-
+-
++import umc.study.spring.apiPayLoad.code.ReasonDTO;
+ 
+ public interface BaseCode {
+     public ReasonDTO getReason();
+Index: src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code.status;\n\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\nimport umc.study.spring.apiPayLoad.code.BaseCode;\nimport umc.study.spring.apiPayLoad.code.ReasonDTO;\n\n@Getter\n@AllArgsConstructor\npublic enum SuccessStatus implements BaseCode {\n    //일반적인 응답\n    _OK(HttpStatus.OK, \"COMMON200\", \"성공입니다.\");\n    private final HttpStatus httpStatus;\n    private final String code;\n    private final String message;\n    @Override\n    public ReasonDTO getReason() {\n        return ReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(true)\n                .build();\n    }\n\n    @Override\n    public ReasonDTO getReasonHttpStatus() {\n        return ReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(true)\n                .httpStatus(httpStatus)\n                .build();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java b/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java	(date 1700476048314)
+@@ -9,11 +9,18 @@
+ @Getter
+ @AllArgsConstructor
+ public enum SuccessStatus implements BaseCode {
+-    //일반적인 응답
++
++    // 일반적인 응답
+     _OK(HttpStatus.OK, "COMMON200", "성공입니다.");
++
++    // 멤버 관련 응답
++
++    // ~~~ 관련 응답
++
+     private final HttpStatus httpStatus;
+     private final String code;
+     private final String message;
++
+     @Override
+     public ReasonDTO getReason() {
+         return ReasonDTO.builder()
+@@ -30,6 +37,7 @@
+                 .code(code)
+                 .isSuccess(true)
+                 .httpStatus(httpStatus)
+-                .build();
++                .build()
++                ;
+     }
+-}
++}
+\ No newline at end of file
+Index: src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad;\n\nimport com.fasterxml.jackson.annotation.JsonInclude;\nimport com.fasterxml.jackson.annotation.JsonProperty;\nimport com.fasterxml.jackson.annotation.JsonPropertyOrder;\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport umc.study.spring.apiPayLoad.code.BaseCode;\nimport umc.study.spring.apiPayLoad.code.status.SuccessStatus;\n\n@Getter\n@AllArgsConstructor\n@JsonPropertyOrder({\"isSuccess\",\"code\",\"message\",\"result\"})\npublic class ApiResponse<T> {\n\n    @JsonProperty(\"isSuccess\")\n    private final Boolean isSuccess;\n    private final String code;\n    private final String message;\n    @JsonInclude(JsonInclude.Include.NON_NULL)\n    private T result;\n\n    public static <T> ApiResponse<T> onSuccess(T result){\n        return new ApiResponse<>(true, SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);\n    }\n\n    public static <T> ApiResponse<T> of(BaseCode code, T result){\n        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getCode(), result);\n    }\n    public static <T> ApiResponse<T> onFailure(String code, String message, T data){\n        return new ApiResponse<>(false, code, message,data);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java b/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java	(date 1700467403264)
+@@ -10,7 +10,7 @@
+ 
+ @Getter
+ @AllArgsConstructor
+-@JsonPropertyOrder({"isSuccess","code","message","result"})
++@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
+ public class ApiResponse<T> {
+ 
+     @JsonProperty("isSuccess")
+@@ -20,14 +20,19 @@
+     @JsonInclude(JsonInclude.Include.NON_NULL)
+     private T result;
+ 
++
++    // 성공한 경우 응답 생성
+     public static <T> ApiResponse<T> onSuccess(T result){
+-        return new ApiResponse<>(true, SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);
++        return new ApiResponse<>(true, SuccessStatus._OK.getCode() , SuccessStatus._OK.getMessage(), result);
+     }
+ 
+     public static <T> ApiResponse<T> of(BaseCode code, T result){
+-        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getCode(), result);
++        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode() , code.getReasonHttpStatus().getMessage(), result);
+     }
++
++
++    // 실패한 경우 응답 생성
+     public static <T> ApiResponse<T> onFailure(String code, String message, T data){
+-        return new ApiResponse<>(false, code, message,data);
++        return new ApiResponse<>(true, code, message, data);
+     }
+-}
++}
+\ No newline at end of file
