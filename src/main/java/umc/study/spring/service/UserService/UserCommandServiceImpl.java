@@ -4,18 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.study.spring.apiPayLoad.code.status.ErrorStatus;
-import umc.study.spring.apiPayLoad.execption.handler.CategoryHandler;
-import umc.study.spring.convertor.UserConverter;
-import umc.study.spring.convertor.UserPreferConverter;
+import umc.study.spring.apiPayLoad.exception.handler.CategoryHandler;
+import umc.study.spring.converter.UserConverter;
+import umc.study.spring.converter.UserPreferConverter;
 import umc.study.spring.domain.Category;
 import umc.study.spring.domain.User;
 import umc.study.spring.domain.mapping.UserPrefer;
-import umc.study.spring.dto.UserRequestDTO;
+import umc.study.spring.web.dto.UserRequestDTO;
 import umc.study.spring.repository.AddressRepository;
 import umc.study.spring.repository.CategoryRepository;
 import umc.study.spring.repository.UserRepository;
 
-import java.lang.reflect.Member;
 import java.util.List;
 import java.util.stream.Collectors;
 

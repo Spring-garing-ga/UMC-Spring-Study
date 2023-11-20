@@ -1,4 +1,7 @@
-package umc.study.spring.apiPayload.code;
+package umc.study.spring.apiPayLoad.code;
+
+
+import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
 
 public interface BaseErrorCode {
     public ErrorReasonDTO getReason();

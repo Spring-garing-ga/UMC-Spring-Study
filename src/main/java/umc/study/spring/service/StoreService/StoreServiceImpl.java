@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.study.spring.apiPayLoad.code.status.ErrorStatus;
-import umc.study.spring.apiPayLoad.execption.handler.StoreHandler;
+import umc.study.spring.apiPayLoad.exception.handler.StoreHandler;
 import umc.study.spring.domain.Store;
 import umc.study.spring.repository.StoreRepository;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
