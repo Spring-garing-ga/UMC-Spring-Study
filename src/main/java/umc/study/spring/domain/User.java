@@ -37,14 +37,6 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 50)
     private Gender gender;
     private LocalDate birth;
-    @Column(nullable = false)
-    private String name;
-    
-    @Column(nullable = true)
-    private Gender gender;
-
-    @Column(nullable = true)
-    private LocalDateTime birth;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")

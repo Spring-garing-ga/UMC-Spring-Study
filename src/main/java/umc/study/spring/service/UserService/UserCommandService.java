@@ -1,7 +1,7 @@
 package umc.study.spring.service.UserService;
 
 import umc.study.spring.domain.User;
-import umc.study.spring.dto.UserRequestDTO;
+import umc.study.spring.web.dto.UserRequestDTO;
 
 
 public interface UserCommandService {
