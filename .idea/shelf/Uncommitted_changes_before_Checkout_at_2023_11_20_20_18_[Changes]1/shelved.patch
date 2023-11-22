@@ -1,0 +1,628 @@
+Index: src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code;\n\nimport lombok.Builder;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\n\n@Getter\n@Builder\npublic class ReasonDTO {\n    private HttpStatus httpStatus;\n\n    private final boolean isSuccess;\n    private final String code;\n    private final String message;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java b/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java	(date 1700479088274)
+@@ -12,4 +12,8 @@
+     private final boolean isSuccess;
+     private final String code;
+     private final String message;
++
++    public boolean getIsSuccess() {
++        return isSuccess;
++    }
+ }
+Index: src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code;\n\npublic interface BaseErrorCode {\n    public ErrorReasonDTO getReason();\n    public ErrorReasonDTO getReasonHttpStatus();\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java b/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java	(date 1700479088276)
+@@ -1,5 +1,8 @@
+ package umc.study.spring.apiPayLoad.code;
+ 
++
++import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
++
+ public interface BaseErrorCode {
+     public ErrorReasonDTO getReason();
+     public ErrorReasonDTO getReasonHttpStatus();
+Index: src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code.status;\n\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\nimport umc.study.spring.apiPayLoad.code.BaseErrorCode;\nimport umc.study.spring.apiPayLoad.code.ErrorReasonDTO;\n@Getter\n@AllArgsConstructor\npublic enum ErrorStatus implements BaseErrorCode {\n    _INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, \"COMMON500\", \"서버 에러, 관리자에게 문의 바랍니다.\"),\n    _BAD_REQUEST(HttpStatus.BAD_REQUEST,\"COMMON400\", \"잘못된 요청입니다.\"),\n    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,\"COMMON401\", \"인증이 필요합니다.\"),\n    _FORBIDDEN(HttpStatus.FORBIDDEN,\"COMMON403\", \"금지된 요청입니다.\"),\n\n    //멤버 관련 에러\n    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, \"MEMBER4001\",\"사용자가 없습니다.\"),\n    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, \"MEMBER4002\",\"닉네임은 필수 입니다.\"),\n\n    //Article Error\n    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND,\"ARTICLE4001\", \"게시글이 없습니다.\"),\n\n    //For Test\n    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, \"TEMP4001\", \"이거는 테스트\"),\n\n    //Category Error\n    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,\"CATEGORY4001\",\"카테고리를 찾을 수 없습니다.\"),\n    //Store Error\n    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,\"STORE4001\",\"가게를 찾을 수 없습니다.\")\n    ;\n    private final HttpStatus httpStatus;\n    private final String code;\n    private final String message;\n\n    @Override\n    public ErrorReasonDTO getReason() {\n        return ErrorReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(false)\n                .build();\n    }\n\n    @Override\n    public ErrorReasonDTO getReasonHttpStatus() {\n        return ErrorReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(false)\n                .httpStatus(httpStatus)\n                .build();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java b/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java	(date 1700479088278)
+@@ -5,29 +5,33 @@
+ import org.springframework.http.HttpStatus;
+ import umc.study.spring.apiPayLoad.code.BaseErrorCode;
+ import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
++
+ @Getter
+ @AllArgsConstructor
+ public enum ErrorStatus implements BaseErrorCode {
++
++    // 가장 일반적인 응답
+     _INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON500", "서버 에러, 관리자에게 문의 바랍니다."),
+-    _BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON400", "잘못된 요청입니다."),
+-    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401", "인증이 필요합니다."),
+-    _FORBIDDEN(HttpStatus.FORBIDDEN,"COMMON403", "금지된 요청입니다."),
++    _BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON400","잘못된 요청입니다."),
++    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401","인증이 필요합니다."),
++    _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
+ 
+-    //멤버 관련 에러
+-    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001","사용자가 없습니다."),
+-    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002","닉네임은 필수 입니다."),
++
++    // 멤버 관려 에러
++    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
++    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
+ 
+-    //Article Error
+-    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND,"ARTICLE4001", "게시글이 없습니다."),
++    // 예시,,,
++    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
+ 
+-    //For Test
+-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
++    // Ror test
++    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "This is Test"),
+ 
+-    //Category Error
+-    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"CATEGORY4001","카테고리를 찾을 수 없습니다."),
+-    //Store Error
+-    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,"STORE4001","가게를 찾을 수 없습니다.")
+-    ;
++    // FoodCategory Error
++    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "FOOD_CATEGORY4001", "음식 카테고리가 없습니다."),
++    // Store
++    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE4001", "해당 가게가 없습니다.");
++
+     private final HttpStatus httpStatus;
+     private final String code;
+     private final String message;
+@@ -48,6 +52,7 @@
+                 .code(code)
+                 .isSuccess(false)
+                 .httpStatus(httpStatus)
+-                .build();
++                .build()
++                ;
+     }
+-}
++}
+\ No newline at end of file
+Index: src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code;\n\nimport lombok.Builder;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\n\n@Getter\n@Builder\npublic class ErrorReasonDTO {\n    private HttpStatus httpStatus;\n    private final boolean isSuccess;\n    private final String code;\n    private final String message;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java b/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java	(date 1700479088279)
+@@ -8,7 +8,13 @@
+ @Builder
+ public class ErrorReasonDTO {
+     private HttpStatus httpStatus;
++
+     private final boolean isSuccess;
+     private final String code;
+     private final String message;
++
++    public boolean getIsSuccess() {
++        return isSuccess;
++    }
+ }
++
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"5b449dc3-13b4-4bb8-b742-7f6aa4ea511f\" name=\"Changes\" comment=\"aaa\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/modules/spring.iml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/modules/spring.iml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/modules/spring.main.iml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/modules/spring.main.iml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/modules/umc.study.spring.test.iml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/modules/umc.study.spring.test.iml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/ApiResponse.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/BaseCode.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/BaseErrorCode.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/ErrorReasonDTO.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/ReasonDTO.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/status/ErrorStatus.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/status/SuccessStatus.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/exception/ExceptionAdvice.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/exception/GeneralException.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/exception/handler/StoreHandler.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/apiPayload/exception/handler/TempHandler.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/converter/ReviewConverter.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/ReviewConverter.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/converter/TempConverter.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/repository/ReviewRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/repository/ReviewRepository.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/repository/StoreRepository.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/repository/UserRepository.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/service/ReviewService/ReviewCommandService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/ReviewService/ReviewCommandService.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/service/ReviewService/ReviewCommandServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/ReviewService/ReviewCommandServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/service/ReviewService/ReviewQueryService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/ReviewService/ReviewQueryService.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/service/ReviewService/ReviewQueryServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/ReviewService/ReviewQueryServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/service/TempService/TempCommandService.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/service/TempService/TempCommandServiceImpl.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/service/TempService/TempQueryService.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/service/TempService/TempQueryServiceImpl.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/ExceptionAdvice.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/GeneralException.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/handler/CategoryHandler.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/exception/handler/CategoryHandler.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/handler/StoreHandler.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/exception/handler/StoreHandler.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/handler/TempHandler.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/exception/handler/TempHandler.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/controller/MissionController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/MissionRestController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/controller/TempRestController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/TempRestController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/controller/UserController.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/AddressConverter.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/AddressConverter.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/CategoryConverter.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/CategoryConverter.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/StoreConverter.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/StoreConverter.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/UserConverter.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/UserConverter.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/AddressConverter.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/MissionConverter.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/MissionConverter.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/TempConverter.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/TempConverter.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/UserConverter.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/UserPreferConverter.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/converter/UserPreferConverter.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/domain/Store_image.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/domain/Store_image.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/domain/User.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/domain/User.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/domain/mapping/Store_image.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/dto/AddressDTO.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/dto/MissionRequestDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/MissionRequestDTO.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/dto/MissionResponseDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/MissionResponseDTO.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/dto/TempRequest.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/TempRequest.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/dto/TempResponse.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/TempResponse.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/dto/UserRequestDTO.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/dto/UserResponseDTO.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/repository/CategoryRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/repository/CategoryRepository.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/MissionService/MissionCommandService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/MissionService/MissionCommandService.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/MissionService/MissionCommandServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/MissionService/MissionCommandServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/StoreService/StoreCommandServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/StoreService/StoreCommandServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/StoreService/StoreServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/StoreService/StoreServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/TempService/TempQueryServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/TempService/TempQueryServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserCommandService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserCommandService.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserCommandServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserCommandServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryService.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryServiceImpl.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/StoreRestController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/StoreRestController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/UserRestController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/UserRestController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/StoreRequestDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/StoreRequestDTO.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/UserRequestDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/UserRequestDTO.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/validation/annotation/ExistStores.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/validation/validator/StoresExistValidator.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/web/controller/ReviewRestController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/ReviewRestController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/web/controller/TempRestController.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/web/dto/ReviewRequestDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/ReviewRequestDTO.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/web/dto/ReviewResponseDTO.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/ReviewResponseDTO.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/web/dto/TempRequest.java\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/umc/study/web/dto/TempResponse.java\" beforeDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ExternalProjectsData\">\n    <projectState path=\"$PROJECT_DIR$\">\n      <ProjectState />\n    </projectState>\n  </component>\n  <component name=\"ExternalProjectsManager\">\n    <system id=\"GRADLE\">\n      <state>\n        <projects_view>\n          <tree_state>\n            <expand>\n              <path>\n                <item name=\"\" type=\"6a2764b6:ExternalProjectsStructure$RootNode\" />\n                <item name=\"spring\" type=\"f1a62948:ProjectNode\" />\n              </path>\n            </expand>\n            <select />\n          </tree_state>\n        </projects_view>\n      </state>\n    </system>\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Interface\" />\n        <option value=\"AnnotationType\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"main\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2Y7KwI1041uyPNuf3Eik0nxc0ev\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,\n    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,\n    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,\n    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,\n    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.34875&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;,\n    &quot;spring.configuration.checksum&quot;: &quot;cacf2bd9e64d1db02fdd5c12337d0f67&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RunManager\" selected=\"Spring Boot.SpringGaringGaApplication\">\n    <configuration name=\"SpringGaringGaApplication (1)\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\n      <module name=\"umc.study.spring.main\" />\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"umc.study.spring.SpringGaringGaApplication\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"SpringGaringGaApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\n      <module name=\"spring.main\" />\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"umc.study.spring.SpringGaringGaApplication\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"5b449dc3-13b4-4bb8-b742-7f6aa4ea511f\" name=\"Changes\" comment=\"\" />\n      <created>1699871414480</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1699871414480</updated>\n      <workItem from=\"1699871416452\" duration=\"198000\" />\n      <workItem from=\"1699871652201\" duration=\"96000\" />\n      <workItem from=\"1699930347528\" duration=\"182000\" />\n      <workItem from=\"1699930547282\" duration=\"87000\" />\n      <workItem from=\"1699930644918\" duration=\"135000\" />\n      <workItem from=\"1699930783756\" duration=\"8046000\" />\n      <workItem from=\"1699944873304\" duration=\"108000\" />\n      <workItem from=\"1699944987999\" duration=\"54000\" />\n      <workItem from=\"1699945049252\" duration=\"97000\" />\n      <workItem from=\"1699945150066\" duration=\"95000\" />\n      <workItem from=\"1699945248517\" duration=\"16000\" />\n      <workItem from=\"1699945267452\" duration=\"154000\" />\n      <workItem from=\"1699945491293\" duration=\"1422000\" />\n      <workItem from=\"1699947623899\" duration=\"12239000\" />\n      <workItem from=\"1699969930684\" duration=\"14809000\" />\n      <workItem from=\"1699989075916\" duration=\"1395000\" />\n      <workItem from=\"1700021042994\" duration=\"2970000\" />\n      <workItem from=\"1700024082503\" duration=\"1313000\" />\n      <workItem from=\"1700467057665\" duration=\"6121000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.History.Properties\">\n    <option name=\"COLUMN_ID_ORDER\">\n      <list>\n        <option value=\"Default.Root\" />\n        <option value=\"Default.Author\" />\n        <option value=\"Default.Date\" />\n        <option value=\"Default.Subject\" />\n        <option value=\"Space.CommitStatus\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"origin/bug/11\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"aaa\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"aaa\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/.idea/workspace.xml	(date 1700479088282)
+@@ -4,35 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="5b449dc3-13b4-4bb8-b742-7f6aa4ea511f" name="Changes" comment="aaa">
+-      <change beforePath="$PROJECT_DIR$/.idea/modules/spring.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/spring.iml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/modules/spring.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/spring.main.iml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/modules/umc.study.spring.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/umc.study.spring.test.iml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/ApiResponse.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/BaseCode.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/BaseErrorCode.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/ErrorReasonDTO.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/ReasonDTO.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/status/ErrorStatus.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/status/SuccessStatus.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/exception/ExceptionAdvice.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/exception/GeneralException.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/exception/handler/StoreHandler.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/exception/handler/TempHandler.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/converter/ReviewConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/ReviewConverter.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/converter/TempConverter.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/repository/ReviewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/repository/ReviewRepository.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/repository/StoreRepository.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/repository/UserRepository.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/service/ReviewService/ReviewCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/ReviewService/ReviewCommandService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/service/ReviewService/ReviewCommandServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/ReviewService/ReviewCommandServiceImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/service/ReviewService/ReviewQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/ReviewService/ReviewQueryService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/service/ReviewService/ReviewQueryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/ReviewService/ReviewQueryServiceImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/service/TempService/TempCommandService.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/service/TempService/TempCommandServiceImpl.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/service/TempService/TempQueryService.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/service/TempService/TempQueryServiceImpl.java" beforeDir="false" />
++    <list default="true" id="5b449dc3-13b4-4bb8-b742-7f6aa4ea511f" name="Changes" comment="store add API bug fix">
+       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java" afterDir="false" />
+@@ -40,55 +12,6 @@
+       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/ExceptionAdvice.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/GeneralException.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/handler/CategoryHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/exception/handler/CategoryHandler.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/handler/StoreHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/exception/handler/StoreHandler.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/execption/handler/TempHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/apiPayLoad/exception/handler/TempHandler.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/controller/MissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/MissionRestController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/controller/TempRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/TempRestController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/controller/UserController.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/AddressConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/AddressConverter.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/CategoryConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/CategoryConverter.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/StoreConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/StoreConverter.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/UserConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/UserConverter.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/AddressConverter.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/MissionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/MissionConverter.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/TempConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/TempConverter.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/UserConverter.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/UserPreferConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/UserPreferConverter.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/domain/Store_image.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/domain/Store_image.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/domain/User.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/domain/mapping/Store_image.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/dto/AddressDTO.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/dto/MissionRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/MissionRequestDTO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/dto/MissionResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/MissionResponseDTO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/dto/TempRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/TempRequest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/dto/TempResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/TempResponse.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/dto/UserRequestDTO.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/dto/UserResponseDTO.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/repository/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/repository/CategoryRepository.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/MissionService/MissionCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/MissionService/MissionCommandService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/MissionService/MissionCommandServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/MissionService/MissionCommandServiceImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/StoreService/StoreCommandServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/StoreService/StoreCommandServiceImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/StoreService/StoreServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/StoreService/StoreServiceImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/TempService/TempQueryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/TempService/TempQueryServiceImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserCommandService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserCommandServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserCommandServiceImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryServiceImpl.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/StoreRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/StoreRestController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/UserRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/UserRestController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/StoreRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/StoreRequestDTO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/UserRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/UserRequestDTO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/validation/annotation/ExistStores.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/validation/validator/StoresExistValidator.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/web/controller/ReviewRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/ReviewRestController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/web/controller/TempRestController.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/web/dto/ReviewRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/ReviewRequestDTO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/web/dto/ReviewResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/ReviewResponseDTO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/web/dto/TempRequest.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/web/dto/TempResponse.java" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -212,8 +135,16 @@
+       <workItem from="1699989075916" duration="1395000" />
+       <workItem from="1700021042994" duration="2970000" />
+       <workItem from="1700024082503" duration="1313000" />
+-      <workItem from="1700467057665" duration="6121000" />
++      <workItem from="1700467057665" duration="6426000" />
+     </task>
++    <task id="LOCAL-00001" summary="store add API bug fix">
++      <created>1700478978956</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1700478978956</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -255,6 +186,7 @@
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="aaa" />
+-    <option name="LAST_COMMIT_MESSAGE" value="aaa" />
++    <MESSAGE value="store add API bug fix" />
++    <option name="LAST_COMMIT_MESSAGE" value="store add API bug fix" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code;\n\n\n\n\npublic interface BaseCode {\n    public ReasonDTO getReason();\n    public ReasonDTO getReasonHttpStatus();\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java b/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java	(date 1700479088284)
+@@ -1,7 +1,6 @@
+ package umc.study.spring.apiPayLoad.code;
+ 
+-
+-
++import umc.study.spring.apiPayLoad.code.ReasonDTO;
+ 
+ public interface BaseCode {
+     public ReasonDTO getReason();
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16__Changes_.xml
+new file mode 100644
+--- /dev/null	(date 1700479015824)
++++ b/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16__Changes_.xml	(date 1700479015824)
+@@ -0,0 +1,4 @@
++<changelist name="Uncommitted_changes_before_Checkout_at_2023_11_20_20_16_[Changes]" date="1700479007996" recycled="true" deleted="true">
++  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16_[Changes]/shelved.patch" />
++  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 2023/11/20 20:16 [Changes]" />
++</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16_[Changes]/shelved.patch
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16_[Changes]/shelved.patch
+new file mode 100644
+--- /dev/null	(date 1700479007830)
++++ b/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023_11_20_20_16_[Changes]/shelved.patch	(date 1700479007830)
+@@ -0,0 +1,236 @@
++Index: src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>package umc.study.spring.apiPayLoad.code;\n\nimport lombok.Builder;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\n\n@Getter\n@Builder\npublic class ReasonDTO {\n    private HttpStatus httpStatus;\n\n    private final boolean isSuccess;\n    private final String code;\n    private final String message;\n}\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java b/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java
++--- a/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
+++++ b/src/main/java/umc/study/spring/apiPayLoad/code/ReasonDTO.java	(date 1700467138925)
++@@ -12,4 +12,8 @@
++     private final boolean isSuccess;
++     private final String code;
++     private final String message;
+++
+++    public boolean getIsSuccess() {
+++        return isSuccess;
+++    }
++ }
++Index: src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>package umc.study.spring.apiPayLoad.code;\n\npublic interface BaseErrorCode {\n    public ErrorReasonDTO getReason();\n    public ErrorReasonDTO getReasonHttpStatus();\n}\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java b/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java
++--- a/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
+++++ b/src/main/java/umc/study/spring/apiPayLoad/code/BaseErrorCode.java	(date 1700467403261)
++@@ -1,5 +1,8 @@
++ package umc.study.spring.apiPayLoad.code;
++ 
+++
+++import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
+++
++ public interface BaseErrorCode {
++     public ErrorReasonDTO getReason();
++     public ErrorReasonDTO getReasonHttpStatus();
++Index: src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>package umc.study.spring.apiPayLoad.code.status;\n\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\nimport umc.study.spring.apiPayLoad.code.BaseErrorCode;\nimport umc.study.spring.apiPayLoad.code.ErrorReasonDTO;\n@Getter\n@AllArgsConstructor\npublic enum ErrorStatus implements BaseErrorCode {\n    _INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, \"COMMON500\", \"서버 에러, 관리자에게 문의 바랍니다.\"),\n    _BAD_REQUEST(HttpStatus.BAD_REQUEST,\"COMMON400\", \"잘못된 요청입니다.\"),\n    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,\"COMMON401\", \"인증이 필요합니다.\"),\n    _FORBIDDEN(HttpStatus.FORBIDDEN,\"COMMON403\", \"금지된 요청입니다.\"),\n\n    //멤버 관련 에러\n    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, \"MEMBER4001\",\"사용자가 없습니다.\"),\n    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, \"MEMBER4002\",\"닉네임은 필수 입니다.\"),\n\n    //Article Error\n    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND,\"ARTICLE4001\", \"게시글이 없습니다.\"),\n\n    //For Test\n    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, \"TEMP4001\", \"이거는 테스트\"),\n\n    //Category Error\n    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,\"CATEGORY4001\",\"카테고리를 찾을 수 없습니다.\"),\n    //Store Error\n    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,\"STORE4001\",\"가게를 찾을 수 없습니다.\")\n    ;\n    private final HttpStatus httpStatus;\n    private final String code;\n    private final String message;\n\n    @Override\n    public ErrorReasonDTO getReason() {\n        return ErrorReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(false)\n                .build();\n    }\n\n    @Override\n    public ErrorReasonDTO getReasonHttpStatus() {\n        return ErrorReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(false)\n                .httpStatus(httpStatus)\n                .build();\n    }\n}\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java b/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java
++--- a/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
+++++ b/src/main/java/umc/study/spring/apiPayLoad/code/status/ErrorStatus.java	(date 1700467403273)
++@@ -5,29 +5,33 @@
++ import org.springframework.http.HttpStatus;
++ import umc.study.spring.apiPayLoad.code.BaseErrorCode;
++ import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
+++
++ @Getter
++ @AllArgsConstructor
++ public enum ErrorStatus implements BaseErrorCode {
+++
+++    // 가장 일반적인 응답
++     _INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON500", "서버 에러, 관리자에게 문의 바랍니다."),
++-    _BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON400", "잘못된 요청입니다."),
++-    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401", "인증이 필요합니다."),
++-    _FORBIDDEN(HttpStatus.FORBIDDEN,"COMMON403", "금지된 요청입니다."),
+++    _BAD_REQUEST(HttpStatus.BAD_REQUEST,"COMMON400","잘못된 요청입니다."),
+++    _UNAUTHORIZED(HttpStatus.UNAUTHORIZED,"COMMON401","인증이 필요합니다."),
+++    _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
++ 
++-    //멤버 관련 에러
++-    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001","사용자가 없습니다."),
++-    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002","닉네임은 필수 입니다."),
+++
+++    // 멤버 관려 에러
+++    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
+++    NICKNAME_NOT_EXIST(HttpStatus.BAD_REQUEST, "MEMBER4002", "닉네임은 필수 입니다."),
++ 
++-    //Article Error
++-    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND,"ARTICLE4001", "게시글이 없습니다."),
+++    // 예시,,,
+++    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ARTICLE4001", "게시글이 없습니다."),
++ 
++-    //For Test
++-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
+++    // Ror test
+++    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "This is Test"),
++ 
++-    //Category Error
++-    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"CATEGORY4001","카테고리를 찾을 수 없습니다."),
++-    //Store Error
++-    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,"STORE4001","가게를 찾을 수 없습니다.")
++-    ;
+++    // FoodCategory Error
+++    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "FOOD_CATEGORY4001", "음식 카테고리가 없습니다."),
+++    // Store
+++    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE4001", "해당 가게가 없습니다.");
+++
++     private final HttpStatus httpStatus;
++     private final String code;
++     private final String message;
++@@ -48,6 +52,7 @@
++                 .code(code)
++                 .isSuccess(false)
++                 .httpStatus(httpStatus)
++-                .build();
+++                .build()
+++                ;
++     }
++-}
+++}
++\ No newline at end of file
++Index: src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>package umc.study.spring.apiPayLoad.code;\n\nimport lombok.Builder;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\n\n@Getter\n@Builder\npublic class ErrorReasonDTO {\n    private HttpStatus httpStatus;\n    private final boolean isSuccess;\n    private final String code;\n    private final String message;\n}\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java b/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java
++--- a/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
+++++ b/src/main/java/umc/study/spring/apiPayLoad/code/ErrorReasonDTO.java	(date 1700467138918)
++@@ -8,7 +8,13 @@
++ @Builder
++ public class ErrorReasonDTO {
++     private HttpStatus httpStatus;
+++
++     private final boolean isSuccess;
++     private final String code;
++     private final String message;
+++
+++    public boolean getIsSuccess() {
+++        return isSuccess;
+++    }
++ }
+++
++Index: src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>package umc.study.spring.apiPayLoad.code;\n\n\n\n\npublic interface BaseCode {\n    public ReasonDTO getReason();\n    public ReasonDTO getReasonHttpStatus();\n}\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java b/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java
++--- a/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
+++++ b/src/main/java/umc/study/spring/apiPayLoad/code/BaseCode.java	(date 1700467403287)
++@@ -1,7 +1,6 @@
++ package umc.study.spring.apiPayLoad.code;
++ 
++-
++-
+++import umc.study.spring.apiPayLoad.code.ReasonDTO;
++ 
++ public interface BaseCode {
++     public ReasonDTO getReason();
++Index: src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>package umc.study.spring.apiPayLoad.code.status;\n\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\nimport umc.study.spring.apiPayLoad.code.BaseCode;\nimport umc.study.spring.apiPayLoad.code.ReasonDTO;\n\n@Getter\n@AllArgsConstructor\npublic enum SuccessStatus implements BaseCode {\n    //일반적인 응답\n    _OK(HttpStatus.OK, \"COMMON200\", \"성공입니다.\");\n    private final HttpStatus httpStatus;\n    private final String code;\n    private final String message;\n    @Override\n    public ReasonDTO getReason() {\n        return ReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(true)\n                .build();\n    }\n\n    @Override\n    public ReasonDTO getReasonHttpStatus() {\n        return ReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(true)\n                .httpStatus(httpStatus)\n                .build();\n    }\n}\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java b/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java
++--- a/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
+++++ b/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java	(date 1700476048314)
++@@ -9,11 +9,18 @@
++ @Getter
++ @AllArgsConstructor
++ public enum SuccessStatus implements BaseCode {
++-    //일반적인 응답
+++
+++    // 일반적인 응답
++     _OK(HttpStatus.OK, "COMMON200", "성공입니다.");
+++
+++    // 멤버 관련 응답
+++
+++    // ~~~ 관련 응답
+++
++     private final HttpStatus httpStatus;
++     private final String code;
++     private final String message;
+++
++     @Override
++     public ReasonDTO getReason() {
++         return ReasonDTO.builder()
++@@ -30,6 +37,7 @@
++                 .code(code)
++                 .isSuccess(true)
++                 .httpStatus(httpStatus)
++-                .build();
+++                .build()
+++                ;
++     }
++-}
+++}
++\ No newline at end of file
++Index: src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java
++IDEA additional info:
++Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
++<+>package umc.study.spring.apiPayLoad;\n\nimport com.fasterxml.jackson.annotation.JsonInclude;\nimport com.fasterxml.jackson.annotation.JsonProperty;\nimport com.fasterxml.jackson.annotation.JsonPropertyOrder;\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport umc.study.spring.apiPayLoad.code.BaseCode;\nimport umc.study.spring.apiPayLoad.code.status.SuccessStatus;\n\n@Getter\n@AllArgsConstructor\n@JsonPropertyOrder({\"isSuccess\",\"code\",\"message\",\"result\"})\npublic class ApiResponse<T> {\n\n    @JsonProperty(\"isSuccess\")\n    private final Boolean isSuccess;\n    private final String code;\n    private final String message;\n    @JsonInclude(JsonInclude.Include.NON_NULL)\n    private T result;\n\n    public static <T> ApiResponse<T> onSuccess(T result){\n        return new ApiResponse<>(true, SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);\n    }\n\n    public static <T> ApiResponse<T> of(BaseCode code, T result){\n        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getCode(), result);\n    }\n    public static <T> ApiResponse<T> onFailure(String code, String message, T data){\n        return new ApiResponse<>(false, code, message,data);\n    }\n}\n
++Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
++<+>UTF-8
++===================================================================
++diff --git a/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java b/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java
++--- a/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
+++++ b/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java	(date 1700467403264)
++@@ -10,7 +10,7 @@
++ 
++ @Getter
++ @AllArgsConstructor
++-@JsonPropertyOrder({"isSuccess","code","message","result"})
+++@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
++ public class ApiResponse<T> {
++ 
++     @JsonProperty("isSuccess")
++@@ -20,14 +20,19 @@
++     @JsonInclude(JsonInclude.Include.NON_NULL)
++     private T result;
++ 
+++
+++    // 성공한 경우 응답 생성
++     public static <T> ApiResponse<T> onSuccess(T result){
++-        return new ApiResponse<>(true, SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);
+++        return new ApiResponse<>(true, SuccessStatus._OK.getCode() , SuccessStatus._OK.getMessage(), result);
++     }
++ 
++     public static <T> ApiResponse<T> of(BaseCode code, T result){
++-        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getCode(), result);
+++        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode() , code.getReasonHttpStatus().getMessage(), result);
++     }
+++
+++
+++    // 실패한 경우 응답 생성
++     public static <T> ApiResponse<T> onFailure(String code, String message, T data){
++-        return new ApiResponse<>(false, code, message,data);
+++        return new ApiResponse<>(true, code, message, data);
++     }
++-}
+++}
++\ No newline at end of file
+Index: src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad.code.status;\n\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport org.springframework.http.HttpStatus;\nimport umc.study.spring.apiPayLoad.code.BaseCode;\nimport umc.study.spring.apiPayLoad.code.ReasonDTO;\n\n@Getter\n@AllArgsConstructor\npublic enum SuccessStatus implements BaseCode {\n    //일반적인 응답\n    _OK(HttpStatus.OK, \"COMMON200\", \"성공입니다.\");\n    private final HttpStatus httpStatus;\n    private final String code;\n    private final String message;\n    @Override\n    public ReasonDTO getReason() {\n        return ReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(true)\n                .build();\n    }\n\n    @Override\n    public ReasonDTO getReasonHttpStatus() {\n        return ReasonDTO.builder()\n                .message(message)\n                .code(code)\n                .isSuccess(true)\n                .httpStatus(httpStatus)\n                .build();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java b/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/code/status/SuccessStatus.java	(date 1700479088286)
+@@ -9,11 +9,18 @@
+ @Getter
+ @AllArgsConstructor
+ public enum SuccessStatus implements BaseCode {
+-    //일반적인 응답
++
++    // 일반적인 응답
+     _OK(HttpStatus.OK, "COMMON200", "성공입니다.");
++
++    // 멤버 관련 응답
++
++    // ~~~ 관련 응답
++
+     private final HttpStatus httpStatus;
+     private final String code;
+     private final String message;
++
+     @Override
+     public ReasonDTO getReason() {
+         return ReasonDTO.builder()
+@@ -30,6 +37,7 @@
+                 .code(code)
+                 .isSuccess(true)
+                 .httpStatus(httpStatus)
+-                .build();
++                .build()
++                ;
+     }
+-}
++}
+\ No newline at end of file
+Index: src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package umc.study.spring.apiPayLoad;\n\nimport com.fasterxml.jackson.annotation.JsonInclude;\nimport com.fasterxml.jackson.annotation.JsonProperty;\nimport com.fasterxml.jackson.annotation.JsonPropertyOrder;\nimport lombok.AllArgsConstructor;\nimport lombok.Getter;\nimport umc.study.spring.apiPayLoad.code.BaseCode;\nimport umc.study.spring.apiPayLoad.code.status.SuccessStatus;\n\n@Getter\n@AllArgsConstructor\n@JsonPropertyOrder({\"isSuccess\",\"code\",\"message\",\"result\"})\npublic class ApiResponse<T> {\n\n    @JsonProperty(\"isSuccess\")\n    private final Boolean isSuccess;\n    private final String code;\n    private final String message;\n    @JsonInclude(JsonInclude.Include.NON_NULL)\n    private T result;\n\n    public static <T> ApiResponse<T> onSuccess(T result){\n        return new ApiResponse<>(true, SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);\n    }\n\n    public static <T> ApiResponse<T> of(BaseCode code, T result){\n        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getCode(), result);\n    }\n    public static <T> ApiResponse<T> onFailure(String code, String message, T data){\n        return new ApiResponse<>(false, code, message,data);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java b/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java
+--- a/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java	(revision 8f27c28c227fd5a8d494a7c507e32e1650d22f51)
++++ b/src/main/java/umc/study/spring/apiPayLoad/ApiResponse.java	(date 1700479088288)
+@@ -10,7 +10,7 @@
+ 
+ @Getter
+ @AllArgsConstructor
+-@JsonPropertyOrder({"isSuccess","code","message","result"})
++@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
+ public class ApiResponse<T> {
+ 
+     @JsonProperty("isSuccess")
+@@ -20,14 +20,19 @@
+     @JsonInclude(JsonInclude.Include.NON_NULL)
+     private T result;
+ 
++
++    // 성공한 경우 응답 생성
+     public static <T> ApiResponse<T> onSuccess(T result){
+-        return new ApiResponse<>(true, SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);
++        return new ApiResponse<>(true, SuccessStatus._OK.getCode() , SuccessStatus._OK.getMessage(), result);
+     }
+ 
+     public static <T> ApiResponse<T> of(BaseCode code, T result){
+-        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getCode(), result);
++        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode() , code.getReasonHttpStatus().getMessage(), result);
+     }
++
++
++    // 실패한 경우 응답 생성
+     public static <T> ApiResponse<T> onFailure(String code, String message, T data){
+-        return new ApiResponse<>(false, code, message,data);
++        return new ApiResponse<>(true, code, message, data);
+     }
+-}
++}
+\ No newline at end of file

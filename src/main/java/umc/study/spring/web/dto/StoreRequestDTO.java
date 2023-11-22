@@ -14,8 +14,6 @@ public class StoreRequestDTO {
         String address;
         String detail;
         int type;
-        Category category;
-        //category
         String category_name;
     }
 }
