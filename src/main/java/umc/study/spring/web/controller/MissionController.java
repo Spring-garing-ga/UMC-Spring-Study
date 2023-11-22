@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import umc.study.spring.domain.apiPayload.ApiResponse;
+import umc.study.spring.apiPayLoad.ApiResponse;
 import umc.study.spring.dto.MissionResponse;
 import umc.study.spring.dto.UserMissionRequest;
 import umc.study.spring.service.MissionService.MissionCommandService;

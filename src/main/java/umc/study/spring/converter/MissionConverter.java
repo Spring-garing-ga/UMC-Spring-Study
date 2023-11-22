@@ -1,6 +1,7 @@
 package umc.study.spring.converter;
 
 
+import org.springframework.data.domain.Page;
 import umc.study.spring.domain.Mission;
 import umc.study.spring.domain.enums.MissionStatus;
 import umc.study.spring.domain.mapping.UserMission;
@@ -34,8 +35,6 @@ public class MissionConverter {
 
     public static UserMission toUserMission(UserMissionRequest requestDto) {
         return UserMission.builder()
-                .userId(requestDto.getUserId())
-                .missionId(requestDto.getMissionId())
                 .checkCode(1234)
                 .build();
     }

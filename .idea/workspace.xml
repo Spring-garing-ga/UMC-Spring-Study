@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5b449dc3-13b4-4bb8-b742-7f6aa4ea511f" name="Changes" comment="aaa">
       <change beforePath="$PROJECT_DIR$/.idea/modules/spring.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/spring.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/spring.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/spring.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/umc.study.spring.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/umc.study.spring.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/ApiResponse.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/apiPayload/code/BaseCode.java" beforeDir="false" />
@@ -43,6 +45,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/controller/UserController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/AddressConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/AddressConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/CategoryConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/CategoryConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/MissionConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/MissionConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/StoreConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/StoreConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/UserConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/converter/UserConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/convertor/AddressConverter.java" beforeDir="false" />
@@ -58,6 +61,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/TempService/TempQueryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/TempService/TempQueryServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/service/UserService/UserQueryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/MissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/MissionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/StoreRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/controller/StoreRestController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/StoreRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/StoreRequestDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/UserRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umc/study/spring/web/dto/UserRequestDTO.java" afterDir="false" />
@@ -127,7 +131,6 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
