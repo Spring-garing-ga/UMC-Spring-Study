@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import umc.study.spring.apiPayLoad.ApiResponse;
+import umc.study.spring.apiPayload.ApiResponse;
 import umc.study.spring.converter.UserConverter;
 import umc.study.spring.domain.User;
-import umc.study.spring.service.UserService.UserCommandService;
+import umc.study.spring.service.userService.UserCommandService;
 import umc.study.spring.web.dto.UserRequestDTO;
 import umc.study.spring.web.dto.UserResponseDTO;
 

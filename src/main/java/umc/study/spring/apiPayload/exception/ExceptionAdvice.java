@@ -1,4 +1,4 @@
-package umc.study.spring.apiPayLoad.exception;
+package umc.study.spring.apiPayload.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import umc.study.spring.apiPayLoad.ApiResponse;
-import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
-import umc.study.spring.apiPayLoad.code.status.ErrorStatus;
+import umc.study.spring.apiPayload.ApiResponse;
+import umc.study.spring.apiPayload.code.ErrorReasonDTO;
+import umc.study.spring.apiPayload.code.status.ErrorStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;

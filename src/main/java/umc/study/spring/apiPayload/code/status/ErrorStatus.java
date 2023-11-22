@@ -1,10 +1,10 @@
-package umc.study.spring.apiPayLoad.code.status;
+package umc.study.spring.apiPayload.code.status;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import umc.study.spring.apiPayLoad.code.BaseErrorCode;
-import umc.study.spring.apiPayLoad.code.ErrorReasonDTO;
+import umc.study.spring.apiPayload.code.ErrorReasonDTO;
+import umc.study.spring.apiPayload.code.BaseErrorCode;
 
 @Getter
 @AllArgsConstructor
@@ -30,8 +30,8 @@ public enum ErrorStatus implements BaseErrorCode {
     //Category Error
     FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,"CATEGORY4001","카테고리를 찾을 수 없습니다."),
     //Store Error
-    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,"STORE4001","가게를 찾을 수 없습니다.")
-    ;
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND,"STORE4001","가게를 찾을 수 없습니다."),
+    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND,"MISSION4001","미션을 찾을 수 없습니다.");
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;

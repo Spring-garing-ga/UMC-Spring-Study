@@ -1,4 +1,4 @@
-package umc.study.spring.service.UserService;
+package umc.study.spring.service.userService;
 
 import umc.study.spring.domain.User;
 import umc.study.spring.web.dto.UserRequestDTO;

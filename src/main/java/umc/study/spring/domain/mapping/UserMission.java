@@ -29,4 +29,8 @@ public class UserMission extends BaseEntity {
 
     @Column(nullable = false)
     private Integer checkCode;
+
+    public void setComplete() {
+        this.status = MissionStatus.COMPLETED;
+    }
 }

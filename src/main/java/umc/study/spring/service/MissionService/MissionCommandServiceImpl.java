@@ -3,8 +3,8 @@ package umc.study.spring.service.MissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import umc.study.spring.apiPayLoad.code.status.ErrorStatus;
-import umc.study.spring.apiPayLoad.exception.handler.StoreHandler;
+import umc.study.spring.apiPayload.code.status.ErrorStatus;
+import umc.study.spring.apiPayload.exception.handler.StoreHandler;
 import umc.study.spring.converter.MissionConverter;
 import umc.study.spring.domain.Mission;
 import umc.study.spring.domain.Store;
@@ -12,7 +12,7 @@ import umc.study.spring.domain.mapping.UserMission;
 import umc.study.spring.dto.MissionResponse;
 import umc.study.spring.dto.UserMissionRequest;
 import umc.study.spring.repository.UserMissionRepository;
-import umc.study.spring.service.UserService.UserCommandService;
+import umc.study.spring.service.userService.UserCommandService;
 import umc.study.spring.web.dto.MissionRequestDTO;
 import umc.study.spring.repository.MissionRepository;
 import umc.study.spring.repository.StoreRepository;
@@ -48,6 +48,14 @@ public class MissionCommandServiceImpl implements MissionCommandService{
         }
 
         return null;
+    }
+
+    @Override
+    public MissionResponse.UserMission completeMission(UserMissionRequest userMissionRequest) {
+        UserMission userMission = userMissionRepository.findByUserIdAndMissionId(userMissionRequest.getUserId(), userMissionRequest.getMissionId()).orElseThrow(() -> new StoreHandler(ErrorStatus.MISSION_NOT_FOUND));
+        userMission.setComplete();
+        UserMission savedUserMission = userMissionRepository.save(userMission);
+        return MissionConverter.toUserMissionResponse(savedUserMission);
     }
 
     public void checkMission(Integer missionId) throws Exception {

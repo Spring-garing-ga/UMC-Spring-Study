@@ -1,11 +1,8 @@
 package umc.study.spring.web.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import umc.study.spring.domain.apiPayload.ApiResponse;
+import org.springframework.web.bind.annotation.*;
+import umc.study.spring.apiPayload.ApiResponse;
 import umc.study.spring.dto.MissionResponse;
 import umc.study.spring.dto.UserMissionRequest;
 import umc.study.spring.service.MissionService.MissionCommandService;
@@ -23,6 +20,11 @@ public class MissionController {
     @PostMapping("/accept")
     public ApiResponse<MissionResponse.UserMission> acceptMission(@RequestBody @Valid UserMissionRequest userMissionRequest){
         return ApiResponse.onSuccess(missionService.acceptMission(userMissionRequest));
+    }
+
+    @PutMapping("/complete")
+    public ApiResponse<MissionResponse.UserMission> completeMission(@RequestBody @Valid UserMissionRequest userMissionRequest){
+        return ApiResponse.onSuccess(missionService.completeMission(userMissionRequest));
     }
 
 }

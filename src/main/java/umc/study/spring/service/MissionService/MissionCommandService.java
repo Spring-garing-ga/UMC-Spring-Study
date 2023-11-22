@@ -11,4 +11,6 @@ public interface MissionCommandService {
     public void checkMission(Integer missionId) throws Exception;
 
     public MissionResponse.UserMission acceptMission(UserMissionRequest userMissionRequest);
+
+    public MissionResponse.UserMission completeMission(UserMissionRequest userMissionRequest);
 }

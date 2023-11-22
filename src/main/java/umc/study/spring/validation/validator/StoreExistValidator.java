@@ -2,7 +2,7 @@ package umc.study.spring.validation.validator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import umc.study.spring.apiPayLoad.code.status.ErrorStatus;
+import umc.study.spring.apiPayload.code.status.ErrorStatus;
 import umc.study.spring.service.StoreService.StoreService;
 import umc.study.spring.validation.annotation.ExistStore;
 
