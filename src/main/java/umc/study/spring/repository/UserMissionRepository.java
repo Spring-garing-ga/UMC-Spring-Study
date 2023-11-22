@@ -11,4 +11,5 @@ import umc.study.spring.domain.mapping.UserMission;
 
 public interface UserMissionRepository extends JpaRepository<UserMission, Long> {
     Page<UserMission> findAllByUser(User user, PageRequest pageRequest);
+    boolean existsByUserIdAndMissionId(Integer userId, Integer missionId);
 }

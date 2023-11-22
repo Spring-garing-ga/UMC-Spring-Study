@@ -38,6 +38,11 @@ public class UserCommandServiceImpl implements UserCommandService {
         addressRepository.save(user.getAddress());
         return userRepository.save(user);
     }
-    //        .orElseThrow(()->new CategoryHandler(ErrorStatus.FOOD_CATEGORY_NOT_FOUND)
 
+    @Override
+    public void checkUser(Integer userId) throws Exception {
+        if(!userRepository.existsById(Long.valueOf(userId))) {
+            throw new Exception("존재하지 않는 유저입니다.");
+        }
+    }
 }
