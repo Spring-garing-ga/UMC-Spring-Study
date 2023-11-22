@@ -7,9 +7,11 @@ import umc.study.spring.repository.StoreRepository;
 import umc.study.spring.repository.UserRepository;
 import umc.study.spring.web.dto.ReviewRequestDTO;
 import umc.study.spring.web.dto.ReviewResponseDTO;
+import umc.study.spring.web.dto.StoreResponseDTO;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewConverter {
 
@@ -32,5 +34,7 @@ public class ReviewConverter {
                 .store(store)
                 .build();
     }
+
+
 
 }

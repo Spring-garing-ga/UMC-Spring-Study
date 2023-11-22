@@ -29,7 +29,7 @@ public class MissionCommandServiceImpl implements MissionCommandService{
     @Override
     @Transactional
     public Mission addMission(MissionRequestDTO.AddMissionDTO request) {
-        Store store = storeRepository.findById(request.getStoreId()).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
+        Store store = storeRepository.findById(request.getStoreId()).get();
         Mission newMission = MissionConverter.toMission(request);
         newMission.setStore(store);
         return missionRepository.save(newMission);

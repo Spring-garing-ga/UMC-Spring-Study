@@ -31,7 +31,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         User user = UserConverter.toUser(request);
         List<Category> categoryList = request.getPreferCategory().stream()
                 .map(categoryId -> {
-                    return categoryRepository.findById(categoryId).orElseThrow(()->new CategoryHandler(ErrorStatus.FOOD_CATEGORY_NOT_FOUND));
+                    return categoryRepository.findById(categoryId).get();
                 }).collect(Collectors.toList());
         List<UserPrefer> userPreferList = UserPreferConverter.toMemberPreferList(categoryList);
         userPreferList.forEach(userPrefer -> {userPrefer.setUser(user);});
