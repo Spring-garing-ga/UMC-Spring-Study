@@ -32,4 +32,11 @@ public class UserRequestDTO {
         List<Long> preferCategory;
 
     }
+
+    @Getter
+    public static class ReviewDTO{
+        Long id;
+        String content;
+        float rating;
+    }
 }
