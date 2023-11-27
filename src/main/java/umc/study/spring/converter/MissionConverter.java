@@ -70,4 +70,27 @@ public class MissionConverter {
                 .listSize(missionDTOList.size())
                 .build();
     }
+
+    public static MissionResponseDTO.StoreMissionDTO toStoreMissionDTO (Mission mission){
+        return MissionResponseDTO.StoreMissionDTO.builder()
+                .title(mission.getTitle())
+                .goal(mission.getGoal())
+                .point(mission.getPoint())
+                .description(mission.getDescription())
+                .build();
+    }
+
+    public static MissionResponseDTO.StoreMissionListDTO toStoreMissionListDTO (Page<Mission> storeMissionList){
+        List<MissionResponseDTO.StoreMissionDTO> storeMissionDTOList = storeMissionList.stream()
+                .map(MissionConverter::toStoreMissionDTO).collect(Collectors.toList());
+
+        return MissionResponseDTO.StoreMissionListDTO.builder()
+                .isLast(storeMissionList.isLast())
+                .isFirst(storeMissionList.isFirst())
+                .missionList(storeMissionDTOList)
+                .totalPage(storeMissionList.getTotalPages())
+                .totalElements(storeMissionList.getTotalElements())
+                .listSize(storeMissionDTOList.size())
+                .build();
+    }
 }
